@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+
+metadata:
+  name: nginx-web
+
+  labels:
+    app: web
+    env: production
+    tier: frontend
+
+  annotations:
+    owner: devops-team
+    description: frontend-nginx-service
+
+spec:
+  containers:
+  - name: nginx
+    image: nginx:latest

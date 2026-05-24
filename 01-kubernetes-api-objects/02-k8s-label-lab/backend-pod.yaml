@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+
+metadata:
+  name: api-pod
+
+  labels:
+    app: api
+    env: production
+    tier: backend
+
+  annotations:
+    owner: backend-team
+    description: backend-api-service
+
+spec:
+  containers:
+  - name: api
+    image: nginx:latest
