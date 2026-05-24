@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: app-config
+
+data:
+  APP_ENV: production
+  APP_VERSION: v1.0.0
+  APP_DEBUG: "false"
+  APP_NAME: nginx-application
