@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  # Nama deployment
+  name: nginx-deployment
+
+spec:
+  # Jumlah replica Pod
+  replicas: 3
+  strategy:
+    # Rolling update strategy
+    type: RollingUpdate
+    rollingUpdate:
+      # Maximum Pod unavailable saat update
+      maxUnavailable: 1
+      # Maximum Pod tambahan saat update
+      maxSurge: 1
+
+  selector:
+    matchLabels:
+      app: nginx
+
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        # Image awal deployment
+        image: nginx:1.24
+        ports:
+        - containerPort: 80
