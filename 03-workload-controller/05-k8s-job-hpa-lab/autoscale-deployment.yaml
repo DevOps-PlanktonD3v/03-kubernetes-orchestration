@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  # Nama deployment
+  name: autoscale-nginx
+
+spec:
+
+  # Replica awal
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: autoscale-nginx
+
+  template:
+
+    metadata:
+      labels:
+        app: autoscale-nginx
+
+    spec:
+      containers:
+      - name: nginx
+
+        # Image container
+        image: nginx
+
+        resources:
+
+          # Resource request
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+
+          # Resource limit
+          limits:
+            cpu: "300m"
+            memory: "256Mi"
+
+        ports:
+        - containerPort: 80

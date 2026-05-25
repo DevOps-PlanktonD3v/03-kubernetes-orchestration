@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: CronJob
+
+metadata:
+  # Nama CronJob
+  name: backup-cronjob
+
+spec:
+
+  # Schedule setiap 1 menit
+  schedule: "*/1 * * * *"
+
+  jobTemplate:
+    spec:
+
+      template:
+        spec:
+
+          containers:
+          - name: cron-backup
+
+            # Image container
+            image: busybox
+
+            command:
+            - sh
+            - -c
+            - |
+              echo "CronJob running at:"
+              date
+
+          restartPolicy: Never

@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: Job
+
+metadata:
+  # Nama batch Job
+  name: backup-job
+
+spec:
+
+  template:
+    spec:
+
+      containers:
+      - name: backup
+
+        # Image container
+        image: busybox
+
+        command:
+        - sh
+        - -c
+        - |
+          echo "Starting backup process"
+          sleep 10
+          echo "Backup completed"
+
+      # Jangan restart container
+      restartPolicy: Never
