@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: DaemonSet
+
+metadata:
+  # Nama DaemonSet
+  name: fluentd-monitor
+
+spec:
+
+  selector:
+    matchLabels:
+
+      # Label Pod DaemonSet
+      app: fluentd
+
+  template:
+
+    metadata:
+      labels:
+        app: fluentd
+
+    spec:
+
+      containers:
+      - name: fluentd
+
+        # Image monitoring agent
+        image: fluent/fluentd:v1.16-1
+
+        ports:
+        - containerPort: 24224
+
+        resources:
+
+          # Minimum resource
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+
+          # Maximum resource
+          limits:
+            cpu: "300m"
+            memory: "256Mi"
