@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: StatefulSet
+
+metadata:
+  # Nama StatefulSet
+  name: mysql
+
+spec:
+
+  # Nama headless service
+  serviceName: mysql
+
+  # Jumlah replica Pod
+  replicas: 3
+
+  selector:
+    matchLabels:
+      app: mysql
+
+  template:
+
+    metadata:
+      labels:
+        app: mysql
+
+    spec:
+      containers:
+      - name: mysql
+
+        # Image database
+        image: mysql:8
+
+        ports:
+        - containerPort: 3306
+
+        env:
+
+        - name: MYSQL_ROOT_PASSWORD
+          # Password database
+          value: mypassword
+
+        resources:
+
+          # Minimum resource
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+
+          # Maximum resource
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
