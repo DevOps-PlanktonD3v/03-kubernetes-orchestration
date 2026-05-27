@@ -1,0 +1,59 @@
+kind: Deployment
+
+metadata:
+  # Nama Deployment
+  name: nginx-ha
+
+spec:
+  # Jumlah replica Pod
+  replicas: 2
+
+  selector:
+    matchLabels:
+      # Label workload
+      app: nginx-ha
+
+  template:
+
+    metadata:
+      labels:
+        # Label Pod
+        app: nginx-ha
+
+    spec:
+
+      affinity:
+        podAntiAffinity:
+          # Rule wajib anti-affinity
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                # Cari Pod dengan label app=nginx-ha
+                operator: In
+                values:
+                - nginx-ha
+            # Hindari node yang sama
+            topologyKey: kubernetes.io/hostname
+
+      containers:
+      - name: nginx
+        # Image container
+        image: nginx
+        ports:
+        # Port aplikasi
+        - containerPort: 80
+
+        resources:
+
+          requests:
+            # Minimum CPU
+            cpu: "100m"
+            # Minimum memory
+            memory: "128Mi"
+
+          limits:
+            # Maximum CPU
+            cpu: "300m"
+            # Maximum memory
+            memory: "256Mi"
