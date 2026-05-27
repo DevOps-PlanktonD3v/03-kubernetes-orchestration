@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Pod
+
+metadata:
+  # Nama Pod
+  name: nginx-scheduling-pod
+  labels:
+    # Label aplikasi
+    app: nginx
+
+spec:
+
+  # Scheduler hanya memilih node
+  # dengan label disk=ssd
+  nodeSelector:
+    disk: ssd
+
+  containers:
+  - name: nginx
+    # Image container
+    image: nginx
+    ports:
+    # Port aplikasi
+    - containerPort: 80
+    resources:
+      requests:
+        # Minimum CPU
+        cpu: "100m"
+        # Minimum memory
+        memory: "128Mi"
+
+      limits:
+        # Maximum CPU
+        cpu: "300m"
+        # Maximum memory
+        memory: "256Mi"
