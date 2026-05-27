@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Pod
+
+metadata:
+  # Nama backend Pod
+  name: backend-pod
+  labels:
+    # Label aplikasi backend
+    app: backend
+
+spec:
+
+  affinity:
+    nodeAffinity:
+      # Rule affinity wajib cocok
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: disk
+            # Operator matching
+            operator: In
+            # Hanya node SSD
+            values:
+            - ssd
+
+  containers:
+  - name: backend
+    # Image backend container
+    image: nginx
+    ports:
+    # Port aplikasi backend
+    - containerPort: 80
+
+    resources:
+      requests:
+        # Minimum CPU
+        cpu: "100m"
+        # Minimum memory
+        memory: "128Mi"
+
+      limits:
+        # Maximum CPU
+        cpu: "300m"
+        # Maximum memory
+        memory: "256Mi"
