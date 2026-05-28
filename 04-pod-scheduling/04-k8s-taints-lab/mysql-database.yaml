@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: Pod
+
+metadata:
+  # Nama database Pod
+  name: mysql-database
+
+spec:
+
+  tolerations:
+
+  - key: "dedicated"
+
+    # Operator matching
+    operator: "Equal"
+
+    # Value taint
+    value: "database"
+
+    # Jenis taint effect
+    effect: "NoSchedule"
+
+  containers:
+  - name: mysql
+
+    # Image database
+    image: mysql:8
+
+    env:
+
+    - name: MYSQL_ROOT_PASSWORD
+
+      # Password database
+      value: mypassword
+
+    ports:
+
+    # Port database
+    - containerPort: 3306
+
+    resources:
+
+      requests:
+
+        # Minimum CPU
+        cpu: "200m"
+
+        # Minimum memory
+        memory: "256Mi"
+
+      limits:
+
+        # Maximum CPU
+        cpu: "500m"
+
+        # Maximum memory
+        memory: "512Mi"
