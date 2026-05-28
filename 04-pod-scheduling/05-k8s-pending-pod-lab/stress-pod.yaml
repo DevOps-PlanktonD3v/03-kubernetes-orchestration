@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+
+metadata:
+  # Nama stress Pod
+  name: stress-pod
+
+spec:
+
+  containers:
+  - name: stress
+    # Image container
+    image: nginx
+    resources:
+      requests:
+        # Request CPU besar
+        cpu: "2"
+        # Request memory besar
+        memory: "3Gi"
+
+      limits:
+        # Limit CPU
+        cpu: "2"
+        # Limit memory
+        memory: "3Gi"
+    ports:
+    # Port aplikasi
+    - containerPort: 80
