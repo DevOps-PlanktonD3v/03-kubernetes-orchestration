@@ -104,8 +104,14 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 EXPOSE 80
 
 # -----------------------------------------------
-# 13. Jalankan Apache di foreground
-#     PENTING: harus foreground agar container tidak
-#     langsung berhenti setelah start
+# 13. Jalankan Apache di foreground via apache2ctl
+#
+#     Kenapa bukan "apache2-foreground"?
+#     apache2-foreground (script PHP) terkadang tidak
+#     me-load /etc/apache2/envvars dengan benar di PHP 8.3,
+#     menyebabkan error "option requires an argument -- d".
+#
+#     apache2ctl adalah wrapper resmi Debian yang selalu
+#     me-load envvars sebelum menjalankan Apache.
 # -----------------------------------------------
-CMD ["apache2-foreground"]
+CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
