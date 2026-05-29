@@ -1,17 +1,3 @@
-# ============================================================
-# Dockerfile - Laravel 12 Production Image
-#
-# Base image : php:8.3-apache
-# Port       : 80
-# Web server : Apache dengan mod_rewrite
-#
-# Build image:
-#   docker build -t laravel-k8s-demo:v1 .
-#
-# Run container:
-#   docker run -p 8080:80 laravel-k8s-demo:v1
-# ============================================================
-
 # ------ Stage: Production ------
 FROM php:8.3-apache
 

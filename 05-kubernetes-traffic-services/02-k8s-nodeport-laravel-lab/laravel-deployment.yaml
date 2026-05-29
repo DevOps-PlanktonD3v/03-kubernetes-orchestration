@@ -27,7 +27,7 @@ spec:
         # Ganti dengan image yang sudah di-build dan di-push:
         # docker build -t <username>/laravel-k8s-demo:v1 ./laravel-app
         # docker push <username>/laravel-k8s-demo:v1
-        image: laravel-k8s-demo:v1
+        image: planktond3v/laravel-k8s-demo:latest
 
         # Jika menggunakan image lokal (minikube), tambahkan:
         # imagePullPolicy: Never
