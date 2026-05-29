@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  # Nama Service
+  name: golang-api
+spec:
+  selector:
+    # Cari Pod dengan label app=golang-api
+    app: golang-api
+  ports:
+  - port: 80
+    # Port Service
+    targetPort: 5678
+  # Internal Cluster Service
+  type: ClusterIP

@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  # Nama deployment
+  name: golang-api
+
+spec:
+  # Jumlah replica
+  replicas: 2
+  selector:
+    matchLabels:
+      # Label selector deployment
+      app: golang-api
+
+  template:
+    metadata:
+      labels:
+        # Label Pod
+        app: golang-api
+    spec:
+      containers:
+      - name: golang-api
+        # HTTP Echo Server
+        image: hashicorp/http-echo
+        args:
+        # Response API
+        - "-text=Hello From Golang API"
+
+        ports:
+        # Port container
+        - containerPort: 5678
+
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+
+          limits:
+            cpu: "300m"
+            memory: "256Mi"
