@@ -1,0 +1,51 @@
+# ============================================================
+# .gitignore - File yang tidak perlu masuk ke Git repository
+# ============================================================
+
+# Dependensi PHP — di-generate oleh composer install
+/vendor
+
+# File environment — berisi data sensitif (APP_KEY, password, dll)
+# JANGAN pernah commit .env ke repository!
+.env
+.env.backup
+.env.production
+.env.local
+
+# Cache PHPUnit
+/.phpunit.cache
+
+# Build frontend (jika menggunakan Vite/Mix)
+/public/build
+/public/hot
+/public/storage
+
+# Kunci enkripsi yang di-generate Laravel
+/storage/*.key
+
+# Log Pail (Laravel real-time log viewer)
+/storage/pail
+
+# Cache framework yang di-generate saat runtime
+/bootstrap/cache/*.php
+
+# Dependensi Node (jika ada)
+/node_modules
+
+# File autentikasi Composer (berisi credentials)
+auth.json
+
+# File log npm/yarn
+npm-debug.log
+yarn-error.log
+
+# Konfigurasi editor/IDE lokal
+/.fleet
+/.idea
+/.nova
+/.vscode
+/.phpactor.json
+
+# File OS
+.DS_Store
+Thumbs.db

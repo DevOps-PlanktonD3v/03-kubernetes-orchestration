@@ -1,0 +1,51 @@
+# ============================================================
+# .dockerignore - File yang tidak perlu masuk ke Docker image
+#
+# Mirip seperti .gitignore tapi untuk Docker build context.
+# Mengecualikan file ini mempercepat build dan memperkecil image.
+# ============================================================
+
+# Dependensi PHP — akan diinstall oleh composer install di Dockerfile
+/vendor
+
+# Environment variables — jangan pernah masuk ke image!
+.env
+.env.*
+!.env.example
+
+# Cache Composer
+.composer
+
+# Tool development yang tidak perlu di production
+.phpunit.cache
+*.test
+
+# File IDE dan editor
+/.idea
+/.vscode
+/.fleet
+/.nova
+/.phpactor.json
+
+# Node modules (jika ada frontend build)
+/node_modules
+/public/build
+/public/hot
+
+# Git history — tidak perlu di container
+/.git
+/.gitignore
+/.gitattributes
+
+# Docker files sendiri (kecuali folder docker/ — dibutuhkan saat build)
+Dockerfile
+.dockerignore
+
+# Dokumentasi
+README.md
+
+# Storage (akan dibuat saat runtime)
+/storage/logs/*.log
+
+# Cache Laravel yang di-generate saat runtime
+/bootstrap/cache/*.php

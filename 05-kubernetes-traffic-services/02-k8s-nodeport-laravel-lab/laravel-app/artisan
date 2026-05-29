@@ -1,0 +1,28 @@
+#!/usr/bin/env php
+<?php
+
+// ============================================================
+// artisan - Laravel CLI Tool
+//
+// File ini adalah entry point untuk perintah Artisan.
+// Penggunaan: php artisan <command>
+//
+// Contoh perintah berguna:
+//   php artisan key:generate    — Generate APP_KEY baru
+//   php artisan route:list      — Tampilkan semua route terdaftar
+//   php artisan config:cache    — Cache konfigurasi (optimasi production)
+//   php artisan inspire         — Tampilkan quote inspirasi
+// ============================================================
+
+use Symfony\Component\Console\Input\ArgvInput;
+
+define('LARAVEL_START', microtime(true));
+
+// Muat Composer autoloader
+require __DIR__.'/vendor/autoload.php';
+
+// Bootstrap aplikasi dan jalankan perintah CLI
+$status = (require_once __DIR__.'/bootstrap/app.php')
+    ->handleCommand(new ArgvInput);
+
+exit($status);

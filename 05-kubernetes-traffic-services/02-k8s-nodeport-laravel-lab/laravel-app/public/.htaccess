@@ -1,0 +1,33 @@
+# ============================================================
+# public/.htaccess - Apache URL Rewriting Rules
+#
+# File ini memberitahu Apache cara menangani request URL.
+# Semua request yang bukan file/folder nyata akan diarahkan
+# ke index.php (entry point Laravel).
+#
+# Tanpa mod_rewrite + file ini, URL seperti /health dan /info
+# tidak akan bekerja — hanya /index.php/health yang bisa diakses.
+# ============================================================
+
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # Teruskan Authorization header ke PHP
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Redirect URL yang diakhiri slash (kecuali folder nyata)
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Arahkan semua request ke index.php
+    # (jika bukan file atau folder yang benar-benar ada)
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>

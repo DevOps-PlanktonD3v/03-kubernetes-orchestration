@@ -4,26 +4,66 @@ kind: Deployment
 metadata:
   # Nama Deployment
   name: laravel-web
+
 spec:
-  # Jumlah replica
+  # Jumlah replica — coba ganti ke 3 dan observe load balancing
   replicas: 2
+
   selector:
     matchLabels:
-      # Label workload
+      # Label yang digunakan Service untuk menemukan Pod ini
       app: laravel-web
+
   template:
     metadata:
       labels:
-        # Label Pod
+        # Label Pod — harus sama dengan selector di atas
         app: laravel-web
+
     spec:
       containers:
       - name: laravel
-        # Laravel Demo Application
-        image: serversideup/php:8.3-fpm-nginx
+
+        # Ganti dengan image yang sudah di-build dan di-push:
+        # docker build -t <username>/laravel-k8s-demo:v1 ./laravel-app
+        # docker push <username>/laravel-k8s-demo:v1
+        image: laravel-k8s-demo:v1
+
+        # Jika menggunakan image lokal (minikube), tambahkan:
+        # imagePullPolicy: Never
+
         ports:
-        # NGINX HTTP Port
-        - containerPort: 8080
+        # Port yang diexpose oleh Apache di dalam container
+        - containerPort: 80
+
+        # Environment variables — inject config ke Pod
+        env:
+        - name: APP_NAME
+          value: "Laravel K8s Demo"
+        - name: APP_ENV
+          value: "production"
+        - name: APP_DEBUG
+          value: "false"
+        # Log ke stderr agar bisa dibaca dengan: kubectl logs <pod>
+        - name: LOG_CHANNEL
+          value: "stderr"
+
+        # Kubernetes Health Probe — cek apakah Pod siap menerima traffic
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 5
+
+        # Kubernetes Liveness Probe — restart Pod jika tidak merespons
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 10
+
         resources:
           requests:
             cpu: "100m"

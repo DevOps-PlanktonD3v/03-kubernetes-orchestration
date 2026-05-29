@@ -1,18 +1,29 @@
 apiVersion: v1
 kind: Service
+
 metadata:
   # Nama Service
   name: laravel-web
 
 spec:
   selector:
-    # Cari Pod Laravel
+    # Cari Pod dengan label app=laravel-web
+    # Semua request ke Service ini akan di-forward ke Pod tersebut
     app: laravel-web
+
   ports:
-  - port: 80
-    # Port container Laravel
-    targetPort: 8080
-    # Port pada node
+  - name: http
+    # Port yang diexpose Service ke dalam cluster
+    port: 80
+    # Port di dalam container (Apache port)
+    targetPort: 80
+    # Port yang bisa diakses dari luar cluster (range: 30000-32767)
     nodePort: 30080
-  # Expose keluar cluster
+
+  # NodePort: Service ini bisa diakses dari luar cluster
+  # via <NODE-IP>:30080
+  #
+  # Cara akses:
+  #   kubectl get nodes -o wide  (dapatkan IP node)
+  #   curl http://<NODE-IP>:30080/
   type: NodePort
